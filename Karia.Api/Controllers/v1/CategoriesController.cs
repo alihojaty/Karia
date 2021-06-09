@@ -7,10 +7,11 @@ using Karia.Api.Models;
 using Karia.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Karia.Api.Controllers
+namespace Karia.Api.Controllers.v1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class CategoriesController:ControllerBase
     {
         private readonly IKariaRepository _kariaRepository;

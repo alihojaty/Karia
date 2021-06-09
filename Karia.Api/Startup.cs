@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,19 @@ namespace Karia.Api
             #region Services
 
             services.AddScoped<IKariaRepository, KariaRepository>();
+
+            #endregion
+
+            #region ApiVersioning
+
+            services.AddApiVersioning(setupAction =>
+            {
+                setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+                setupAction.AssumeDefaultVersionWhenUnspecified = true;
+                setupAction.ApiVersionReader = new UrlSegmentApiVersionReader();
+                setupAction.ReportApiVersions = true;
+            });
+
 
             #endregion
         }
