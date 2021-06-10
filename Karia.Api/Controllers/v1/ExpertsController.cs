@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Karia.Api.Entities;
@@ -34,7 +35,20 @@ namespace Karia.Api.Controllers.v1
                 return NotFound();
             }
             var expertsFromRepo =await _kariaRepository.GetExperts(categoryId, expertsResourceParameters);
+            if (expertsFromRepo is null)
+            {
+                return NotFound();
+            }
 
+            var paginationMetaData = new
+            {
+                currentPage=expertsFromRepo.CurrentPage,
+                totalPages=expertsFromRepo.TotalPages
+            };
+            
+            HttpContext.Response.Headers.Add("x-pagination",
+                JsonSerializer.Serialize(paginationMetaData));
+                
             return Ok(_mapper.Map<IEnumerable<ExpertsDto>>(expertsFromRepo));
 
         }

@@ -33,7 +33,7 @@ namespace Karia.Api.Services
         }
 
         
-        public async Task<IEnumerable<Expert>> GetExperts(Guid categoryId, ExpertsResourceParameters expertsResourceParameters)
+        public async Task<PagedList<Expert>> GetExperts(Guid categoryId, ExpertsResourceParameters expertsResourceParameters)
         {
             var experts = _context.Groupings
                 .Where(g => g.CategoryId == categoryId)

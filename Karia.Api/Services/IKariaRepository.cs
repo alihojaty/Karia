@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Karia.Api.Entities;
+using Karia.Api.Helpers;
 using Karia.Api.ResourceParameters;
 
 namespace Karia.Api.Services
@@ -10,6 +11,6 @@ namespace Karia.Api.Services
     {
         Task<IEnumerable<Category>> GetCategories();
         Task<bool> ExistsCategory(Guid categoryId);
-        Task<IEnumerable<Expert>> GetExperts(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
+        Task<PagedList<Expert>> GetExperts(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
     }
 }
