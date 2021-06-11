@@ -24,7 +24,7 @@ namespace Karia.Api.Profiles
                 var result = (double)((100 / (value1+value2)) * value1);
                 return result ;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 0;
             }

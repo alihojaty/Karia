@@ -84,6 +84,17 @@ namespace Karia.Api.Services
                 .ToListAsync();
             return statistics ;
         }
+
+        public async Task<IEnumerable<WorkSample>> GetSampleJobsAsync(int expertId)
+        {
+            return await _context.WorkSamples.Where(w => w.ExpertId == expertId).ToListAsync();
+        }
+
+        public async Task<bool> ExistsExpertAsync(int expertId)
+        {
+            return await _context.Experts.AnyAsync(e => e.Id == expertId);
+        }
+
         private IQueryable<Expert> ApplySort(IQueryable<Expert> experts,string orderBy)
         {
             switch (orderBy)
