@@ -30,11 +30,11 @@ namespace Karia.Api.Controllers.v1
         public async Task<ActionResult<IEnumerable<ExpertsDto>>> GetExpertsForCategories(Guid categoryId,
             [FromQuery] ExpertsResourceParameters expertsResourceParameters)
         {
-            if (!await _kariaRepository.ExistsCategory(categoryId))
+            if (!await _kariaRepository.ExistsCategoryAsync(categoryId))
             {
                 return NotFound();
             }
-            var expertsFromRepo =await _kariaRepository.GetExperts(categoryId, expertsResourceParameters);
+            var expertsFromRepo =await _kariaRepository.GetExpertsAsync(categoryId, expertsResourceParameters);
             if (expertsFromRepo is null)
             {
                 return NotFound();
@@ -51,6 +51,26 @@ namespace Karia.Api.Controllers.v1
                 
             return Ok(_mapper.Map<IEnumerable<ExpertsDto>>(expertsFromRepo));
 
+        }
+
+        [HttpGet("{expertId}")]
+        public async Task<ActionResult<ExpertDto>> GetExpertForCategories(Guid categoryId,
+            int expertId)
+        {
+            if (!await _kariaRepository.ExistsCategoryAsync(categoryId))
+            {
+                return NotFound();
+            }
+
+            var expertFormRepo = await _kariaRepository.GetExpertAsync(categoryId, expertId);
+            if (expertFormRepo is null)
+            {
+                return NotFound();
+            }
+            var expertDto = _mapper.Map<ExpertDto>(expertFormRepo);
+            expertDto.TotalComments = await _kariaRepository.GetTotalCommentsForExperts(expertId);
+
+            return Ok(expertDto);
         }
         
     }

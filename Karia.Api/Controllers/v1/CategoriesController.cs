@@ -26,7 +26,7 @@ namespace Karia.Api.Controllers.v1
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryDto>>> GetCategories()
         {
-            var categoriesFromRepo = await _kariaRepository.GetCategories();
+            var categoriesFromRepo = await _kariaRepository.GetCategoriesAsync();
             return Ok(_mapper.Map<IEnumerable<CategoryDto>>(categoriesFromRepo));
         }
     }

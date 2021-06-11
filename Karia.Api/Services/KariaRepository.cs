@@ -21,19 +21,19 @@ namespace Karia.Api.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Category>> GetCategories()
+        public async Task<IEnumerable<Category>> GetCategoriesAsync()
         {
             var categories=await _context.Categories.ToListAsync();
             return categories;
         }
 
-        public async Task<bool> ExistsCategory(Guid categoryId)
+        public async Task<bool> ExistsCategoryAsync(Guid categoryId)
         {
             return await _context.Categories.AnyAsync(c => c.Id == categoryId);
         }
 
         
-        public async Task<PagedList<Expert>> GetExperts(Guid categoryId, ExpertsResourceParameters expertsResourceParameters)
+        public async Task<PagedList<Expert>> GetExpertsAsync(Guid categoryId, ExpertsResourceParameters expertsResourceParameters)
         {
             var experts = _context.Groupings
                 .Where(g => g.CategoryId == categoryId)
@@ -59,6 +59,21 @@ namespace Karia.Api.Services
                 expertsResourceParameters.PageNumber,
                 expertsResourceParameters.PageSize);
 
+        }
+
+        public async Task<Expert> GetExpertAsync(Guid categoryId, int expertId)
+        {
+            var expert = _context.Groupings
+                .Where(g => g.CategoryId == categoryId && g.ExpertId == expertId)
+                .Include(g => g.Expert)
+                .Select(g => g.Expert);
+            
+            return await expert.SingleOrDefaultAsync();
+        }
+
+        public async Task<int> GetTotalCommentsForExperts(int expertId)
+        {
+            return await _context.Commentings.CountAsync(c => c.ExpertId == expertId);
         }
 
         private IQueryable<Expert> ApplySort(IQueryable<Expert> experts,string orderBy)

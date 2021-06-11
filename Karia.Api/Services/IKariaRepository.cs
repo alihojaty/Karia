@@ -9,8 +9,10 @@ namespace Karia.Api.Services
 {
     public interface IKariaRepository
     {
-        Task<IEnumerable<Category>> GetCategories();
-        Task<bool> ExistsCategory(Guid categoryId);
-        Task<PagedList<Expert>> GetExperts(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
+        Task<IEnumerable<Category>> GetCategoriesAsync();
+        Task<bool> ExistsCategoryAsync(Guid categoryId);
+        Task<PagedList<Expert>> GetExpertsAsync(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
+        Task<Expert> GetExpertAsync(Guid categoryId, int expertId);
+        Task<int> GetTotalCommentsForExperts(int expertId);
     }
 }
