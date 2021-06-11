@@ -14,5 +14,6 @@ namespace Karia.Api.Services
         Task<PagedList<Expert>> GetExpertsAsync(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
         Task<Expert> GetExpertAsync(Guid categoryId, int expertId);
         Task<int> GetTotalCommentsForExperts(int expertId);
+        Task<IEnumerable<Survey>> GetPollStatisticsAsync(int expertId);
     }
 }

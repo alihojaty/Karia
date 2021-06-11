@@ -76,6 +76,14 @@ namespace Karia.Api.Services
             return await _context.Commentings.CountAsync(c => c.ExpertId == expertId);
         }
 
+        public async Task<IEnumerable<Survey>> GetPollStatisticsAsync(int expertId)
+        {
+            var statistics = await _context.Surveys
+                .Where(s => s.ExpertId == expertId)
+                .Include(s=>s.Question)
+                .ToListAsync();
+            return statistics ;
+        }
         private IQueryable<Expert> ApplySort(IQueryable<Expert> experts,string orderBy)
         {
             switch (orderBy)
