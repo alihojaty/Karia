@@ -105,6 +105,11 @@ namespace Karia.Api.Services
             return await PagedList<Commenting>.Create(comments, commentsResourceParameters.PageNumber,
                 commentsResourceParameters.PageSize);
         }
+
+        public async Task<Employer> GetEmployerAsync(int employerId)
+        {
+            return await _context.Employers.SingleOrDefaultAsync(e => e.Id == employerId);
+        }
         private IQueryable<Expert> ApplySort(IQueryable<Expert> experts,string orderBy)
         {
             switch (orderBy)
