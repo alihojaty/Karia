@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Karia.Api.Models;
 using Karia.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
