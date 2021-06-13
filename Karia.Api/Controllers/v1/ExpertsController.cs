@@ -27,7 +27,7 @@ namespace Karia.Api.Controllers.v1
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ExpertsDto>>> GetExpertsForCategories(Guid categoryId,
+        public async Task<ActionResult<IEnumerable<ExpertsDto>>> GetExpertsForCategories(int categoryId,
             [FromQuery] ExpertsResourceParameters expertsResourceParameters)
         {
             if (!await _kariaRepository.ExistsCategoryAsync(categoryId))
@@ -54,7 +54,7 @@ namespace Karia.Api.Controllers.v1
         }
 
         [HttpGet("{expertId}")]
-        public async Task<ActionResult<ExpertDto>> GetExpertForCategories(Guid categoryId,
+        public async Task<ActionResult<ExpertDto>> GetExpertForCategories(int categoryId,
             int expertId)
         {
             if (!await _kariaRepository.ExistsCategoryAsync(categoryId))

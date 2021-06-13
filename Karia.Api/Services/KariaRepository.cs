@@ -27,13 +27,13 @@ namespace Karia.Api.Services
             return categories;
         }
 
-        public async Task<bool> ExistsCategoryAsync(Guid categoryId)
+        public async Task<bool> ExistsCategoryAsync(int categoryId)
         {
             return await _context.Categories.AnyAsync(c => c.Id == categoryId);
         }
 
         
-        public async Task<PagedList<Expert>> GetExpertsAsync(Guid categoryId, ExpertsResourceParameters expertsResourceParameters)
+        public async Task<PagedList<Expert>> GetExpertsAsync(int categoryId, ExpertsResourceParameters expertsResourceParameters)
         {
             var experts = _context.Groupings
                 .Where(g => g.CategoryId == categoryId)
@@ -44,7 +44,7 @@ namespace Karia.Api.Services
             experts = experts.WhereIf(expertsResourceParameters.IsMaster,
                 e => e.IsMaster==true);
             experts = experts.WhereIf(expertsResourceParameters.IsHaveVehicle,
-                e => e.IsHaveVehicle == true);
+                e => e.IsHasVehicle == true);
             experts = experts.WhereIf(!(String.IsNullOrWhiteSpace(expertsResourceParameters.SearchQuery)),
                 e => e.FirstName.Contains(expertsResourceParameters.SearchQuery)
                      || e.LastName.Contains(expertsResourceParameters.SearchQuery)
@@ -61,7 +61,7 @@ namespace Karia.Api.Services
 
         }
 
-        public async Task<Expert> GetExpertAsync(Guid categoryId, int expertId)
+        public async Task<Expert> GetExpertAsync(int categoryId, int expertId)
         {
             var expert = _context.Groupings
                 .Where(g => g.CategoryId == categoryId && g.ExpertId == expertId)

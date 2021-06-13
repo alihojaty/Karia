@@ -30,7 +30,7 @@ namespace Karia.Api.Entities
         public int? Count { get; set; }
         public bool? IsValid { get; set; }
         public bool? IsMaster { get; set; }
-        public bool? IsHaveVehicle { get; set; }
+        public bool? IsHasVehicle { get; set; }
 
         public virtual ICollection<Commenting> Commentings { get; set; }
         public virtual ICollection<Grouping> Groupings { get; set; }

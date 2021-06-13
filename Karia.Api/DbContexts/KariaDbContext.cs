@@ -30,6 +30,7 @@ namespace Karia.Api.DbContexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,8 +41,6 @@ namespace Karia.Api.DbContexts
             {
                 entity.HasIndex(e => e.Name, "UQ_NAME")
                     .IsUnique();
-
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Icon).HasMaxLength(100);
 
@@ -125,15 +124,13 @@ namespace Karia.Api.DbContexts
 
                 entity.Property(e => e.Birthyear).HasColumnType("date");
 
-                entity.Property(e => e.Count).HasDefaultValueSql("((0))");
-
                 entity.Property(e => e.Description).HasMaxLength(400);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.IsHaveVehicle).HasDefaultValueSql("((0))");
+                entity.Property(e => e.IsHasVehicle).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.IsMaster).HasDefaultValueSql("((0))");
 
@@ -161,9 +158,7 @@ namespace Karia.Api.DbContexts
 
                 entity.Property(e => e.RegisterDate).HasColumnType("date");
 
-                entity.Property(e => e.Scores)
-                    .HasColumnType("decimal(3, 1)")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Scores).HasColumnType("decimal(3, 1)");
             });
 
             modelBuilder.Entity<Grouping>(entity =>
@@ -186,8 +181,6 @@ namespace Karia.Api.DbContexts
             modelBuilder.Entity<Question>(entity =>
             {
                 entity.ToTable("Question");
-
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Text).HasMaxLength(200);
 

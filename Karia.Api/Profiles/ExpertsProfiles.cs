@@ -31,7 +31,7 @@ namespace Karia.Api.Profiles
                 .ForMember(dest => dest.NumberOfOffers,
                     opt => opt.MapFrom(src => src.Offers))
                 .ForMember(dest => dest.IsHasVehicle,
-                    opt => opt.MapFrom(src => src.IsHaveVehicle));
+                    opt => opt.MapFrom(src => src.IsHasVehicle));
         }
     }
 }

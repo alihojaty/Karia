@@ -12,7 +12,7 @@ namespace Karia.Api.Entities
             Surveys = new HashSet<Survey>();
         }
 
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
 

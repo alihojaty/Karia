@@ -10,9 +10,9 @@ namespace Karia.Api.Services
     public interface IKariaRepository
     {
         Task<IEnumerable<Category>> GetCategoriesAsync();
-        Task<bool> ExistsCategoryAsync(Guid categoryId);
-        Task<PagedList<Expert>> GetExpertsAsync(Guid categoryId,ExpertsResourceParameters expertsResourceParameters);
-        Task<Expert> GetExpertAsync(Guid categoryId, int expertId);
+        Task<bool> ExistsCategoryAsync(int categoryId);
+        Task<PagedList<Expert>> GetExpertsAsync(int categoryId,ExpertsResourceParameters expertsResourceParameters);
+        Task<Expert> GetExpertAsync(int categoryId, int expertId);
         Task<int> GetTotalCommentsForExperts(int expertId);
         Task<IEnumerable<Survey>> GetPollStatisticsAsync(int expertId);
         Task<IEnumerable<WorkSample>> GetSampleJobsAsync(int expertId);

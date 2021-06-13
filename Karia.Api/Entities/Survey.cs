@@ -8,7 +8,7 @@ namespace Karia.Api.Entities
     public partial class Survey
     {
         public int Id { get; set; }
-        public Guid? QuestionId { get; set; }
+        public int? QuestionId { get; set; }
         public int? ExpertId { get; set; }
         public int? Positive { get; set; }
         public int? Negative { get; set; }
