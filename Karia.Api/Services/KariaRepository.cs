@@ -138,6 +138,11 @@ namespace Karia.Api.Services
 
             return experts;
         }
+
+        public async Task<IEnumerable<Question>> GetQuestionsAsync()
+        {
+            return await _context.Questions.ToListAsync();
+        }
         
 
     }

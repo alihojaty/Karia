@@ -19,5 +19,6 @@ namespace Karia.Api.Services
         Task<bool> ExistsExpertAsync(int expertId);
         Task<PagedList<Commenting>> GetCommentsAsync(int expertId,CommentsResourceParameters commentsResourceParameters);
         Task<Employer> GetEmployerAsync(int employerId);
+        Task<IEnumerable<Question>> GetQuestionsAsync();
     }
 }
