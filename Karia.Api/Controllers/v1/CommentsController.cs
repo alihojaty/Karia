@@ -51,7 +51,7 @@ namespace Karia.Api.Controllers.v1
             [FromBody]CommentForCreationDto commentForCreationDto)
         {
             if (!await _kariaRepository.ExistsExpertAsync(expertId) &&
-                !await _kariaRepository.ExistsEmployerAsync(commentForCreationDto.EmployerId))
+                !await _kariaRepository.ExistsEmployerAsync(commentForCreationDto.EmployerId.Value))
             {
                 return NotFound();
             }

@@ -173,6 +173,11 @@ namespace Karia.Api.Services
             return true;
         }
 
+        public void InsertFeedback(Critic critic)
+        {
+            _context.Critics.Add(critic);
+        }
+
         public async Task<bool> Save()
         {
             try

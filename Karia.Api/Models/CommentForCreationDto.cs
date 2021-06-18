@@ -6,7 +6,7 @@ namespace Karia.Api.Models
     {
         
         [Required(ErrorMessage = "The EmployerId field is required.")]
-        public int  EmployerId { get; set; }
+        public int?  EmployerId { get; set; }
         
         [Required]
         [MaxLength(500)]

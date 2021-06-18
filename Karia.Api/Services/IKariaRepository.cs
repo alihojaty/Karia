@@ -24,6 +24,7 @@ namespace Karia.Api.Services
         void InsertComment(Commenting comment);
         Task<bool> ExistsEmployerAsync(int employerId);
         Task<bool> UpdateStatisticsAsync(int expertId,StatisticsForUpdateDto statisticsForUpdateDto);
+        void InsertFeedback(Critic critic);
         Task<bool> Save();
     }
 }
