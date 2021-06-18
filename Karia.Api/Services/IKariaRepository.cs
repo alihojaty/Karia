@@ -25,6 +25,7 @@ namespace Karia.Api.Services
         Task<bool> ExistsEmployerAsync(int employerId);
         Task<bool> UpdateStatisticsAsync(int expertId,StatisticsForUpdateDto statisticsForUpdateDto);
         void InsertFeedback(Critic critic);
+        void UpdateEmployerAsync(Employer employer);
         Task<bool> Save();
     }
 }

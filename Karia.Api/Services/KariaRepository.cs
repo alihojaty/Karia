@@ -178,6 +178,11 @@ namespace Karia.Api.Services
             _context.Critics.Add(critic);
         }
 
+        public void UpdateEmployerAsync(Employer employer)
+        {
+            
+        }
+
         public async Task<bool> Save()
         {
             try
