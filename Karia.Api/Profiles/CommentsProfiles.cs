@@ -19,6 +19,8 @@ namespace Karia.Api.Profiles
                     opt=>opt.MapFrom(src
                         =>src.Comment));
 
+            CreateMap<CommentForCreationDto, Commenting>();
+
         }
     }
 }

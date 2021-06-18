@@ -2,9 +2,11 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
+using Karia.Api.Entities;
 using Karia.Api.Models;
 using Karia.Api.ResourceParameters;
 using Karia.Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Karia.Api.Controllers.v1
@@ -42,6 +44,29 @@ namespace Karia.Api.Controllers.v1
             HttpContext.Response.Headers.Add("x-pagination",
                 JsonSerializer.Serialize(paginationMetaData));
             return Ok(_mapper.Map<IEnumerable<CommentsDto>>(commentsFromRepo));
+        }
+
+        [HttpPost("{expertId}")]
+        public async Task<IActionResult> PostCommentForExpert(int expertId,
+            [FromBody]CommentForCreationDto commentForCreationDto)
+        {
+            if (!await _kariaRepository.ExistsExpertAsync(expertId) &&
+                !await _kariaRepository.ExistsEmployerAsync(commentForCreationDto.EmployerId))
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(422);
+            }
+            var comment=_mapper.Map<Commenting>(commentForCreationDto);
+
+            comment.ExpertId = expertId;
+            _kariaRepository.InsertComment(comment);
+            await _kariaRepository.Save();
+
+            return StatusCode(201);
         }
     }
 }

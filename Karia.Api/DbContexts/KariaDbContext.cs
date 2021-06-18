@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Karia.Api.Entities;
+using Karia.Api.Helpers;
 
 #nullable disable
 
@@ -35,6 +36,8 @@ namespace Karia.Api.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            
+            
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Category>(entity =>
@@ -219,7 +222,12 @@ namespace Karia.Api.DbContexts
                     .HasConstraintName("FK_WorkSamples_Expert");
             });
 
+
+            modelBuilder.Entity<Expert>().HasQueryFilter(e => EF.Property<bool>(e, "IsValid") == true);
+            // modelBuilder.Entity<Expert>().HasQueryFilter(e => e.IsValid == true);
             OnModelCreatingPartial(modelBuilder);
+
+            
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

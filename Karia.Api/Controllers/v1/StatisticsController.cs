@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Karia.Api.Models;
 using Karia.Api.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Karia.Api.Controllers.v1
@@ -37,5 +38,23 @@ namespace Karia.Api.Controllers.v1
             
             return Ok(statisticsDto);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateStatistics(int expertId,
+            [FromBody] List<StatisticsForUpdateDto> statisticsForUpdateDto)
+        {
+            if (!await _kariaRepository.ExistsExpertAsync(expertId))
+            {
+                return NotFound();
+            }
+            
+            foreach (var stat in statisticsForUpdateDto)
+            {
+                await _kariaRepository.UpdateStatisticsAsync(expertId,stat);
+            }
+
+            return StatusCode(204);
+        }
+        
     }
 }

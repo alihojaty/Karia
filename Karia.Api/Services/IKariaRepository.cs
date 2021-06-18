@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Karia.Api.Entities;
 using Karia.Api.Helpers;
+using Karia.Api.Models;
 using Karia.Api.ResourceParameters;
 
 namespace Karia.Api.Services
@@ -20,5 +21,9 @@ namespace Karia.Api.Services
         Task<PagedList<Commenting>> GetCommentsAsync(int expertId,CommentsResourceParameters commentsResourceParameters);
         Task<Employer> GetEmployerAsync(int employerId);
         Task<IEnumerable<Question>> GetQuestionsAsync();
+        void InsertComment(Commenting comment);
+        Task<bool> ExistsEmployerAsync(int employerId);
+        Task<bool> UpdateStatisticsAsync(int expertId,StatisticsForUpdateDto statisticsForUpdateDto);
+        Task<bool> Save();
     }
 }

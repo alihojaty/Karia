@@ -15,6 +15,8 @@ namespace Karia.Api.Profiles
                 .ForMember(dest => dest.Percent,
                     opt => opt.MapFrom(src=>
                         GetPercent(src.Positive.Value,src.Negative.Value)));
+
+            
         }
 
         private double GetPercent(int value1, int value2)

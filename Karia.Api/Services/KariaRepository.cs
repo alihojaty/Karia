@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Karia.Api.DbContexts;
 using Karia.Api.Entities;
 using Karia.Api.Helpers;
+using Karia.Api.Models;
 using Karia.Api.ResourceParameters;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,8 @@ namespace Karia.Api.Services
             var experts = _context.Groupings
                 .Where(g => g.CategoryId == categoryId)
                 .Include(g => g.Expert)
-                .Select(g => g.Expert);
+                .Select(g => g.Expert)
+                .Where(e => e.IsValid == true);
 
             #region Filters and Searching
             experts = experts.WhereIf(expertsResourceParameters.IsMaster,
@@ -50,7 +52,7 @@ namespace Karia.Api.Services
                      || e.LastName.Contains(expertsResourceParameters.SearchQuery)
                      || e.Description.Contains(expertsResourceParameters.SearchQuery)
                      || e.Orientation.Contains(expertsResourceParameters.SearchQuery));
-
+            // experts = experts.Where(e => e.IsValid == true);
             #endregion
 
             experts = ApplySort(experts,expertsResourceParameters.OrderBy);
@@ -100,6 +102,7 @@ namespace Karia.Api.Services
             var comments =  _context.Commentings
                 .Where(c => c.ExpertId == expertId)
                 .Include(c => c.Employer)
+                .Where(c=>c.IsValid==true)
                 .OrderByDescending(c=>c.DateOfRegistration);
 
             return await PagedList<Commenting>.Create(comments, commentsResourceParameters.PageNumber,
@@ -124,7 +127,17 @@ namespace Karia.Api.Services
                     experts = experts.OrderBy(e => e.FirstName).ThenBy(e => e.LastName).ThenByDescending(e => e.Rate);
                     break;
                 }
+                case "name-asc,rate-desc" :
+                {
+                    experts = experts.OrderBy(e => e.FirstName).ThenBy(e => e.LastName).ThenByDescending(e => e.Rate);
+                    break;
+                }
                 case "rate-desc,name" :
+                {
+                    experts = experts.OrderByDescending(e => e.Rate).ThenBy(e => e.FirstName).ThenBy(e => e.LastName);
+                    break;
+                }
+                case "rate-desc,name-asc" :
                 {
                     experts = experts.OrderByDescending(e => e.Rate).ThenBy(e => e.FirstName).ThenBy(e => e.LastName);
                     break;
@@ -143,7 +156,34 @@ namespace Karia.Api.Services
         {
             return await _context.Questions.ToListAsync();
         }
-        
 
+        public void InsertComment(Commenting comment)
+        {
+            _context.Commentings.Add(comment);
+        }
+
+        public async Task<bool> ExistsEmployerAsync(int employerId)
+        {
+            return await _context.Employers.AnyAsync(e => e.Id == employerId);
+        }
+
+        public async Task<bool> UpdateStatisticsAsync(int expertId,StatisticsForUpdateDto statisticsForUpdateDto)
+        {
+            var result = await _context.Database.ExecuteSqlRawAsync($"RateThePoll {statisticsForUpdateDto.QuestionId},{expertId},{statisticsForUpdateDto.Answer}");
+            return true;
+        }
+
+        public async Task<bool> Save()
+        {
+            try
+            {
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

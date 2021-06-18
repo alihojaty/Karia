@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -35,11 +36,13 @@ namespace Karia.Api.Controllers.v1
                 return NotFound();
             }
             var expertsFromRepo =await _kariaRepository.GetExpertsAsync(categoryId, expertsResourceParameters);
+            
             if (expertsFromRepo is null)
             {
                 return NotFound();
             }
 
+            
             var paginationMetaData = new
             {
                 currentPage=expertsFromRepo.CurrentPage,
