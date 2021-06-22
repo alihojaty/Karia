@@ -183,6 +183,16 @@ namespace Karia.Api.Services
             
         }
 
+        public void InsertEmployer(Employer employer)
+        {
+            _context.Employers.Add(employer);
+        }
+
+        public async Task<bool> ExistsEmployerByPhoneNumber(string phoneNumber)
+        {
+            return await _context.Employers.AnyAsync(e=>e.PhoneNumber==phoneNumber);
+        }
+
         public async Task<bool> Save()
         {
             try

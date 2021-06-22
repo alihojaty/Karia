@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Karia.Api.DbContexts;
 using Karia.Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +18,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using StackExchange.Redis;
 
 
 namespace Karia.Api
@@ -86,6 +90,29 @@ namespace Karia.Api
             
             #endregion
 
+            #region AddJWT
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(configureOptions =>
+                {
+                    configureOptions.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = "Karia.ir",
+                        ValidAudience = "Karia.ir",
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("79322475-2517-4695-b8f7-e570169ce17d")),
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = false,
+
+                    };
+                });
+            
+
+            #endregion
             #region AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             
@@ -94,6 +121,9 @@ namespace Karia.Api
             #region Services
 
             services.AddScoped<IKariaRepository, KariaRepository>();
+            services.AddScoped<IKariaServices, KariaServices>();
+            services.AddSingleton<IConnectionMultiplexer>(provider =>
+                ConnectionMultiplexer.Connect("localhost:6379,password=Ninjadeveloper=r"));
 
             #endregion
 
@@ -122,8 +152,9 @@ namespace Karia.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

@@ -5,6 +5,8 @@ using AutoMapper;
 using Karia.Api.Entities;
 using Karia.Api.Models;
 using Karia.Api.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Karia.Api.Controllers.v1
@@ -12,6 +14,7 @@ namespace Karia.Api.Controllers.v1
     [ApiController]
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
+    [Authorize]
     public class CategoriesController:ControllerBase
     {
         private readonly IKariaRepository _kariaRepository;

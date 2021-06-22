@@ -13,11 +13,10 @@ namespace Karia.Api.Profiles
                     opt => opt.MapFrom(src
                         => src.ProfileImage));
 
-            CreateMap<EmployerForUpdateDto, Employer>()
-                .ForMember(dest => dest.ProfileImage,
-                    opt => opt.MapFrom(src
-                        => src.Profile));
+            CreateMap<EmployerForUpdateDto, Employer>();
             CreateMap<Employer, EmployerForUpdateDto>();
+
+            CreateMap<EmployerForCreationDto, Employer>();
         }
     }
 }
